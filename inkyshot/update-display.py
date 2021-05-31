@@ -276,10 +276,10 @@ logging.debug("Init and Clear")
 if "WAVESHARE" in os.environ:
     logging.info("Display type: Waveshare")
 
-    import lib.epd2in13_V2
-    display = lib.epd2in13_V2.EPD()
-    display.init(display.FULL_UPDATE)
-    display.Clear(0xFF)
+    import lib.epd2in13b_V3
+    display = lib.epd2in13b_V3.EPD()
+    display.init()
+    display.Clear()
     # These are the opposite of what InkyPhat uses.
     WIDTH = display.height # yes, Height
     HEIGHT = display.width # yes, width
@@ -405,8 +405,9 @@ if "ROTATE" in os.environ:
     img = img.rotate(180)
 
 if "WAVESHARE" in os.environ:
+    imgred = Image.new('1', (display.height, display.width), 255)
     # epd does not have a set_image method.
-    display.display(display.getbuffer(img))
+    display.display(display.getbuffer(img),display.getbuffer(imgred))
 else:
     display.set_image(img)
     display.show()
